@@ -41,8 +41,8 @@
 
 <div class="container">
     <h2>Look Up Your Library</h2>
-    <form method="POST" action="/">
-        <input type="text" name="keyword" class="search-box" placeholder="Enter your user ID..." required>
+    <form method="GET" action="/showLibrary">
+        <input type="text" name="user_id" class="search-box" placeholder="Enter your user ID..." required>
         <button type="submit">Find</button>
     </form>
 

@@ -26,9 +26,9 @@ def search_title_page():
     return render_template("title_search.html")
 
 # Search by ISBN page (form)
-#@app.route("/searchISBNPage")
-#def search_isbn_page():
- #   return render_template("search_by_isbn.html")
+@app.route("/searchISBNPage")
+def search_isbn_page():
+    return render_template("isbn_search.html")
 
 # Show Library page (form)
 @app.route("/showLibraryPage")
@@ -65,6 +65,7 @@ def searchByAuthor():
                 "rating": row[3],
                 "isbn" : row[4]
         })
+        
         return render_template("author_search.html", search_results=search_results)
 
 
@@ -132,7 +133,7 @@ def searchByISBN():
                 "isbn" : row[4]
 
         })
-    return render_template("search_by_isbn.html", search_results=search_results)
+    return render_template("isbn_search.html", search_results=search_results)
 
 @app.route("/showLibrary", methods=["GET"])
 def showLibrary():
