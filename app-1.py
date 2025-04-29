@@ -18,22 +18,22 @@ def index():
 # Search by Author page (form)
 @app.route("/searchAuthorPage")
 def search_author_page():
-    return render_template("search_by_author.html")
+    return render_template("author_search.html")
 
 # Search by Title page (form)
 @app.route("/searchTitlePage")
 def search_title_page():
-    return render_template("search_by_title.html")
+    return render_template("title_search.html")
 
 # Search by ISBN page (form)
-@app.route("/searchISBNPage")
-def search_isbn_page():
-    return render_template("search_by_isbn.html")
+#@app.route("/searchISBNPage")
+#def search_isbn_page():
+ #   return render_template("search_by_isbn.html")
 
 # Show Library page (form)
 @app.route("/showLibraryPage")
 def show_library_page():
-    return render_template("show_library.html")
+    return render_template("library_view.html")
 
 @app.route("/searchByAuthor", methods=["GET"])
 def searchByAuthor():
@@ -65,7 +65,7 @@ def searchByAuthor():
                 "rating": row[3],
                 "isbn" : row[4]
         })
-        return render_template("search_by_author.html", search_results=search_results)
+        return render_template("author_search.html", search_results=search_results)
 
 
 @app.route("/searchByTitle", methods=["GET"])
@@ -99,7 +99,7 @@ def searchByTitle():
                 "isbn" : row[4]
 
         })
-    return render_template("search_by_title.html", search_results=search_results)
+    return render_template("title_search.html", search_results=search_results)
 
 @app.route("/searchByISBN", methods=["GET"])
 def searchByISBN():
@@ -164,7 +164,7 @@ def showLibrary():
                 "authors": row[5],
                 "isbn": row[7]
         })
-    return render_template("show_library.html", search_results=search_results)
+    return render_template("library_view.html", search_results=search_results)
 
 @app.route("/addReview", methods=["POST"])
 def addReview():
