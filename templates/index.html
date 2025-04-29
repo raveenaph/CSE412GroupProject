@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book App</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #cbd9d1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #f6edf3;
+            padding: 80px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropbtn {
+            background-color: #bfa2e6;
+            color: white;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace, sans-serif;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .dropdown{
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content{
+            display: none;
+            position: absolute;
+            top: 110%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .dropdown-content a{
+            color: #ffffff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #e6c4dc;
+        }
+
+        .dropdown:hover .dropdown-content{
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #e6c4dc;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 15px;
+            font-size: 18px;
+            color: white;
+            background-color: #bfa2e6;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #e6c4dc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to BookWorm!</h1>
+        <form method="POST" action="/">
+            <input type="text" name="keyword" class="search-box" placeholder="Enter a keyword to search..." required>
+            <button type="submit">Search</button>
+        </form>
+        <div class="dropdown">
+            <button class="dropbtn">Search Books</button>
+            <div class="dropdown-content">
+                <a href="title_search.html" class="btn">Search by Title</a>
+                <a href="author_search.html" class="btn">Search by Author</a>
+            </div>
+        </div>
+
+        <a href="library_view.html" class="btn">View Library</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Search Demo</title>
+    <style>
+        body {
+            font-family: 'Courier New', Monospace, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #cbd9d1 ;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f6edf3;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #747474;
+            outline: none;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Search for Books by Title</h2>
+    <form method="POST" action="/">
+        <input type="text" name="keyword" class="search-box" placeholder="Enter a title to search..." required>
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="results">
+            <p>No results found</p>
+    </div>
+</div>
+
+</body>
+</html>
