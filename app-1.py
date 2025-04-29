@@ -160,7 +160,7 @@ def showLibrary():
         for row in rows:
             search_results.append({
                 "book_id": row[1],
-                "your rating": row[2],
+                "your_rating": row[2],
                 "title": row[4],
                 "authors": row[5],
                 "isbn": row[7]

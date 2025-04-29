@@ -47,7 +47,18 @@
     </form>
 
     <div class="results">
-            <p>No results found</p>
+        {% if search_results %}
+            <h3>Search Results:</h3>
+            <ul>
+            {% for book in search_results %}
+                <li>
+                    <strong>{{ book.title }}</strong> by {{ book.authors }} (Rating: {{ book.rating }}, ISBN: {{ book.isbn }})
+                </li>
+            {% endfor %}
+            </ul>
+        {% elif request.args.get('keyword') %}
+            <p>No results found for "{{ request.args.get('keyword') }}".</p>
+        {% endif %}
     </div>
 </div>
 
