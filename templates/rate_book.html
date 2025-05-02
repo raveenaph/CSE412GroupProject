@@ -47,6 +47,13 @@
 
 <div class="container">
     <h2>Rate a Book</h2>
+    {% if message %}
+        <p style="color: green;"><strong>{{ message }}</strong></p>
+    {% endif %}
+    {% if error %}
+        <p style="color: red;"><strong>{{ error }}</strong></p>
+    {% endif %}
+
     <form method="POST" action="/addReview">
         <input type="text" name="user_id" class="search-box" placeholder="Enter your user ID..." required>
         <input type="text" name="isbn" class="search-box" placeholder="Enter the ISBN of the book you would like to rate..." required>

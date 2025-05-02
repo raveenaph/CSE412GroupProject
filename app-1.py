@@ -149,9 +149,10 @@ def showLibrary():
         cursor = conn.cursor()
 
         cursor.execute("""
-            SELECT * FROM user_books
-            JOIN books ON ub_bookid = b_bookid
-            WHERE ub_userkey = %s
+            SELECT UB.UB_USERKEY, B.B_ISBN, UB.UB_RATING, B.B_TITLE, B.B_AUTHORS
+            FROM USER_BOOKS UB
+            JOIN BOOKS B ON UB.UB_BOOKID = B.B_BOOKID
+            WHERE UB.UB_USERKEY = %s
         """, (user_id,))
 
         rows = cursor.fetchall()
@@ -159,51 +160,53 @@ def showLibrary():
         conn.close()
     
         if not rows:
-            return jsonify({"error": "Sorry! No reviews found. Please try again!"}), 404
+            return render_template("library_view.html", error="Sorry! No reviews found. Please try again!")
 
         for row in rows:
             search_results.append({
-                "book_id": row[1],
+                "user_id": row[0],
+                "isbn": row[1],
                 "your_rating": row[2],
-                "title": row[4],
-                "authors": row[5],
-                "isbn": row[7]
-        })
+                "title": row[3],
+                "authors": row[4]
+            })
+    
     return render_template("library_view.html", search_results=search_results)
+
 
 @app.route("/addReview", methods=["POST"])
 def addReview():
-    data = request.get_json()
-
-    # Extract required fields
-    user_id = data.get("user_id")
-    isbn = data.get("isbn")
-    rating = data.get("rating")
-
+    user_id = request.form.get("user_id")
+    isbn = request.form.get("isbn")
+    rating = request.form.get("rating")
+    
     # Basic validation
-    if not all([user_id, book_id, rating]):
-        return jsonify({"error": "Missing user_id, isbn, or rating"}), 400
+    if not all([user_id, isbn, rating]):
+        return render_template("rate_book.html", error="Missing user ID, ISBN, or rating.")
 
     conn = get_db_connection()
     cursor = conn.cursor()
 
     try:
         cursor.execute("""
-            INSERT INTO USER_BOOKS (UB_USERKEY, UB_BOOKID, UB_RATING)
-            VALUES (%s, %s, %s)
-        """, (user_id, isbn, rating))
+        INSERT INTO USER_BOOKS (UB_USERKEY, UB_BOOKID, UB_RATING)
+        SELECT %s, B_BOOKID, %s
+        FROM BOOKS
+        WHERE B_ISBN = %s
+    """, (user_id, rating, isbn))
+
 
         conn.commit()  
 
     except Exception as e:
         conn.rollback()
-        return jsonify({"error": f"Database error: {str(e)}"}), 500
+        return render_template("rate_book.html", error=f"Database error: {str(e)}")
 
     finally:
         cursor.close()
         conn.close()
 
-    return jsonify({"message": "Rating added successfully!"}), 201
+    return render_template("rate_book.html", message="Rating added successfully!")
 
 
 if __name__ == "__main__":
