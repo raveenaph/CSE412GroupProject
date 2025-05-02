@@ -39,6 +39,14 @@ def show_library_page():
 def show_review_page():
     return render_template("rate_book.html")
 
+@app.route("/deleteReviewPage")
+def show_delete_page():
+    return render_template("delete_review.html")
+
+@app.route("/updateReviewPage")
+def show_update_page():
+    return render_template("update_review.html")
+
 @app.route("/searchByAuthor", methods=["GET"])
 def searchByAuthor():
     search_results = []
@@ -195,7 +203,6 @@ def addReview():
         WHERE B_ISBN = %s
     """, (user_id, rating, isbn))
 
-
         conn.commit()  
 
     except Exception as e:
@@ -207,6 +214,76 @@ def addReview():
         conn.close()
 
     return render_template("rate_book.html", message="Rating added successfully!")
+
+@app.route("/deleteReview", methods=["POST"])
+def deleteReview():
+    user_id = request.form.get("user_id")
+    isbn = request.form.get("isbn")
+
+    if not all([user_id, isbn]):
+        return render_template("delete_review.html", error="Missing user ID or ISBN.")
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            DELETE FROM USER_BOOKS
+            WHERE UB_USERKEY = %s AND UB_BOOKID = (
+                SELECT B_BOOKID FROM BOOKS WHERE B_ISBN = %s
+            )
+        """, (user_id, isbn))
+        
+        if cursor.rowcount == 0:
+            return render_template("delete_review.html", error="No matching review found to delete.")
+
+        conn.commit()
+
+    except Exception as e:
+        conn.rollback()
+        return render_template("delete_review.html", error=f"Database error: {str(e)}")
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return render_template("delete_review.html", message="Review deleted successfully!")
+
+@app.route("/updateReview", methods=["POST"])
+def updateReview():
+    user_id = request.form.get("user_id")
+    isbn = request.form.get("isbn")
+    rating = request.form.get("rating")
+
+    if not all([user_id, isbn, rating]):
+        return render_template("update_review.html", error="Missing user ID, ISBN, or rating.")
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            UPDATE USER_BOOKS
+            SET UB_RATING = %s
+            WHERE UB_USERKEY = %s AND UB_BOOKID = (
+                SELECT B_BOOKID FROM BOOKS WHERE B_ISBN = %s
+            )
+        """, (rating, user_id, isbn))
+
+        if cursor.rowcount == 0:
+            return render_template("update_review.html", error="No matching review found to update.")
+
+        conn.commit()
+
+    except Exception as e:
+        conn.rollback()
+        return render_template("update_review.html", error=f"Database error: {str(e)}")
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return render_template("update_review.html", message="Review updated successfully!")
 
 
 if __name__ == "__main__":

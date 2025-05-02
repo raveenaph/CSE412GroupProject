@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Library</title>
+    <title>Update Book Review</title>
     <style>
         body {
             font-family: 'Courier New', Monospace, sans-serif;
@@ -28,13 +28,6 @@
             border: 1px solid #747474;
             outline: none;
         }
-        .results {
-            margin-top: 20px;
-        }
-        .result-item {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
         .btn {
             display: inline-block;
             font-family: 'Courier New', monospace, sans-serif;
@@ -54,30 +47,24 @@
 <body>
 
 <div class="container">
-    <h2>Look Up Your Library</h2>
-    <form method="GET" action="/showLibrary">
+    <h2>Update a Book Review</h2>
+
+    {% if message %}
+        <p style="color: green;"><strong>{{ message }}</strong></p>
+    {% endif %}
+    {% if error %}
+        <p style="color: red;"><strong>{{ error }}</strong></p>
+    {% endif %}
+
+    <form method="POST" action="/updateReview">
         <input type="text" name="user_id" class="search-box" placeholder="Enter your user ID..." required>
-        <button type="submit" class="btn">Find</button>
-        <a href="/deleteReviewPage" class="btn">Delete Review</a>
-        <a href="/updateReviewPage" class="btn">Update Review</a>
+        <input type="text" name="isbn" class="search-box" placeholder="Enter the ISBN of the book you would like to update..." required>
+        <input type="number" name="rating" class="search-box" placeholder="Enter your new rating (1 - 5)" required min="1" max="5" step="1"/>
+        <button type="submit" class="btn">Update Review</button>
     </form>
+
     <a href="/" class="btn">Home Page</a>
-    <div class="results">
-        {% if search_results %}
-            <h3>Search Results:</h3>
-            <ul>
-            {% for book in search_results %}
-                <li>
-                    <strong>{{ book.title }}</strong> by {{ book.authors }} (Rating: {{ book.your_rating }}, ISBN: {{ book.isbn }})
-                </li>
-            {% endfor %}
-            </ul>
-        {% elif request.args.get('keyword') %}
-            <p>No results found for "{{ request.args.get('keyword') }}".</p>
-        {% endif %}
-    </div>
 </div>
 
 </body>
 </html>
-
