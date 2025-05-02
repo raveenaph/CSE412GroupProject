@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Author Search</title>
+    <title>Keyword Search Demo</title>
     <style>
         body {
             font-family: 'Courier New', Monospace, sans-serif;
@@ -28,13 +28,6 @@
             border: 1px solid #747474;
             outline: none;
         }
-        .results {
-            margin-top: 20px;
-        }
-        .result-item {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
         .btn {
             display: inline-block;
             padding: 15px 30px;
@@ -53,30 +46,16 @@
 <body>
 
 <div class="container">
-    <h2>Search for Books by Author</h2>
-    <form method="get" action="/searchByISBN">
-        <input type="text" name="keyword" class="search-box" placeholder="Enter an ISBN to search..." required>
-        <button type="submit">Search</button>
+    <h2>Rate a Book</h2>
+    <form method="POST" action="/addReview">
+        <input type="text" name="user_id" class="search-box" placeholder="Enter your user ID..." required>
+        <input type="text" name="isbn" class="search-box" placeholder="Enter the ISBN of the book you would like to rate..." required>
+        <input type="number" name="rating" class="search-box" placeholder="Enter your rating (1 - 5)" required min="1" max="5" step="1"/>
+        <button type="submit">Submit</button>
     </form>
-
-    <a href="/addReviewPage" class="btn">Rate a Book with ISBN</a>
 
     <a href="/" class="btn">Home Page</a>
 
-    <div class="results">
-        {% if search_results %}
-            <h3>Search Results:</h3>
-            <ul>
-            {% for book in search_results %}
-                <li>
-                    <strong>{{ book.title }}</strong> by {{ book.authors }} (Rating: {{ book.rating }}, ISBN: {{ book.isbn }})
-                </li>
-            {% endfor %}
-            </ul>
-        {% elif request.args.get('keyword') %}
-            <p>No results found for "{{ request.args.get('keyword') }}".</p>
-        {% endif %}
-    </div>
 </div>
 
 </body>

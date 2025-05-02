@@ -35,6 +35,10 @@ def search_isbn_page():
 def show_library_page():
     return render_template("library_view.html")
 
+@app.route("/addReviewPage")
+def show_review_page():
+    return render_template("rate_book.html")
+
 @app.route("/searchByAuthor", methods=["GET"])
 def searchByAuthor():
     search_results = []
@@ -173,12 +177,12 @@ def addReview():
 
     # Extract required fields
     user_id = data.get("user_id")
-    book_id = data.get("book_id")
+    isbn = data.get("isbn")
     rating = data.get("rating")
 
     # Basic validation
     if not all([user_id, book_id, rating]):
-        return jsonify({"error": "Missing user_id, book_id, or rating"}), 400
+        return jsonify({"error": "Missing user_id, isbn, or rating"}), 400
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -187,7 +191,7 @@ def addReview():
         cursor.execute("""
             INSERT INTO USER_BOOKS (UB_USERKEY, UB_BOOKID, UB_RATING)
             VALUES (%s, %s, %s)
-        """, (user_id, book_id, rating))
+        """, (user_id, isbn, rating))
 
         conn.commit()  
 
