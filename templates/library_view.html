@@ -35,6 +35,19 @@
             padding: 10px;
             border-bottom: 1px solid #ddd;
         }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 15px;
+            font-size: 18px;
+            color: white;
+            background-color: #bfa2e6;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -45,7 +58,7 @@
         <input type="text" name="user_id" class="search-box" placeholder="Enter your user ID..." required>
         <button type="submit" class="btn">Find</button>
     </form>
-
+    <a href="/" class="btn">Home Page</a>
     <div class="results">
         {% if search_results %}
             <h3>Search Results:</h3>
